@@ -15,6 +15,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import hash.HashAlgorithms;
@@ -27,6 +31,9 @@ public class MainFormController implements Initializable {
 	public File getFile() {
 		return this.file;
 	}
+
+	@FXML
+	private AnchorPane anchorPane;
 
 	@FXML
 	private ResourceBundle resources;
@@ -116,9 +123,32 @@ public class MainFormController implements Initializable {
 	private Label LabelVerifyChecksum;
 
 	@FXML
+	void onDragOverEvent(DragEvent event) {
+		if (event.getGestureSource() != this.anchorPane && event.getDragboard().hasFiles()) {
+			event.acceptTransferModes(TransferMode.COPY);
+		}
+		event.consume();
+	}
+
+	@FXML
+	void onDragDroppedEvent(DragEvent event) {
+		Dragboard dragboard = event.getDragboard();
+		if (dragboard.hasFiles()) {
+			String fileName = dragboard.getFiles().get(0).getAbsolutePath();
+			this.file = new File(fileName);
+			this.TextFieldFile.setText(this.file.getAbsolutePath());
+			this.enableButtons();
+			this.clearFields();
+			this.TextFieldVerifyChecksum.setEditable(true);
+		}
+		event.setDropCompleted(true);
+		event.consume();
+	}
+
+	@FXML
 	void openFile(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Choose A File To Calculate Hash Values For It!");
+		fileChooser.setTitle("Choose A File To Compute Hash Values For It!");
 		this.file = fileChooser.showOpenDialog(null);
 		if (this.file != null) {
 			this.TextFieldFile.setText(this.file.getAbsolutePath());
@@ -151,7 +181,7 @@ public class MainFormController implements Initializable {
 		md5Task.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				taskFailure(ButtonMD5);
+				taskFailure(ButtonMD5, event.getSource().getException().getMessage());
 				clearFields();
 			}
 		});
@@ -177,7 +207,7 @@ public class MainFormController implements Initializable {
 		sha1Task.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				taskFailure(ButtonSHA1);
+				taskFailure(ButtonSHA1, event.getSource().getException().getMessage());
 				clearFields();
 			}
 		});
@@ -203,7 +233,7 @@ public class MainFormController implements Initializable {
 		sha2_224Task.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				taskFailure(ButtonSHA2_224);
+				taskFailure(ButtonSHA2_224, event.getSource().getException().getMessage());
 				clearFields();
 			}
 		});
@@ -229,7 +259,7 @@ public class MainFormController implements Initializable {
 		sha2_256Task.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				taskFailure(ButtonSHA2_256);
+				taskFailure(ButtonSHA2_256, event.getSource().getException().getMessage());
 				clearFields();
 			}
 		});
@@ -255,7 +285,7 @@ public class MainFormController implements Initializable {
 		sha2_384Task.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				taskFailure(ButtonSHA2_384);
+				taskFailure(ButtonSHA2_384, event.getSource().getException().getMessage());
 				clearFields();
 			}
 		});
@@ -281,7 +311,7 @@ public class MainFormController implements Initializable {
 		sha2_512Task.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				taskFailure(ButtonSHA2_512);
+				taskFailure(ButtonSHA2_512, event.getSource().getException().getMessage());
 				clearFields();
 			}
 		});
@@ -307,7 +337,7 @@ public class MainFormController implements Initializable {
 		sha3_224Task.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				taskFailure(ButtonSHA3_224);
+				taskFailure(ButtonSHA3_224, event.getSource().getException().getMessage());
 				clearFields();
 			}
 		});
@@ -333,7 +363,7 @@ public class MainFormController implements Initializable {
 		sha3_256Task.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				taskFailure(ButtonSHA3_256);
+				taskFailure(ButtonSHA3_256, event.getSource().getException().getMessage());
 				clearFields();
 			}
 		});
@@ -359,7 +389,7 @@ public class MainFormController implements Initializable {
 		sha3_384Task.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				taskFailure(ButtonSHA3_384);
+				taskFailure(ButtonSHA3_384, event.getSource().getException().getMessage());
 				clearFields();
 			}
 		});
@@ -385,7 +415,7 @@ public class MainFormController implements Initializable {
 		sha3_512Task.setOnFailed(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				taskFailure(ButtonSHA3_512);
+				taskFailure(ButtonSHA3_512, event.getSource().getException().getMessage());
 				clearFields();
 			}
 		});
@@ -397,11 +427,9 @@ public class MainFormController implements Initializable {
 	void compareHash(ActionEvent event) {
 		List<String> result = compareHashValues(this.TextFieldVerifyChecksum.getText());
 		if (result.size() == 2) {
-			Alert alert = new Alert(AlertType.INFORMATION, result.get(0) + result.get(1), ButtonType.OK);
-			alert.show();
+			this.displayAlert(AlertType.INFORMATION, result.get(0) + result.get(1), ButtonType.OK);
 		} else {
-			Alert alert = new Alert(AlertType.WARNING, result.get(0), ButtonType.OK);
-			alert.show();
+			this.displayAlert(AlertType.WARNING, result.get(0), ButtonType.OK);
 		}
 	}
 
@@ -448,10 +476,10 @@ public class MainFormController implements Initializable {
 		button.setDisable(true);
 	}
 
-	private void taskFailure(Button button) {
+	private void taskFailure(Button button, String exceptionMessage) {
 		button.setDisable(false);
-		Alert alert = new Alert(AlertType.ERROR, "Error", ButtonType.OK);
-		alert.show();
+		this.displayAlert(AlertType.ERROR, exceptionMessage, ButtonType.OK);
+		this.clearFields();
 	}
 
 	private void taskSucceded(TextField textField, String value) {
@@ -580,5 +608,10 @@ public class MainFormController implements Initializable {
 			results.add("Hashes Not Equal ");
 			return results;
 		}
+	}
+
+	private void displayAlert(AlertType alertType, String alertMessage, ButtonType buttonType) {
+		Alert alert = new Alert(alertType, alertMessage, buttonType);
+		alert.show();
 	}
 }
