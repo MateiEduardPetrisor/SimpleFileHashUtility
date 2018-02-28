@@ -136,10 +136,14 @@ public class MainFormController implements Initializable {
 		if (dragboard.hasFiles()) {
 			String fileName = dragboard.getFiles().get(0).getAbsolutePath();
 			this.file = new File(fileName);
-			this.TextFieldFile.setText(this.file.getAbsolutePath());
-			this.enableButtons();
-			this.clearFields();
-			this.TextFieldVerifyChecksum.setEditable(true);
+			if (!this.file.isDirectory()) {
+				this.TextFieldFile.setText(this.file.getAbsolutePath());
+				this.enableButtons();
+				this.clearFields();
+				this.TextFieldVerifyChecksum.setEditable(true);
+			} else {
+				this.displayAlert(AlertType.ERROR, "You Selected A Folder!", ButtonType.OK);
+			}
 		}
 		event.setDropCompleted(true);
 		event.consume();
