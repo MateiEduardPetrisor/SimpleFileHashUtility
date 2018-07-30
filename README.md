@@ -8,7 +8,7 @@ Initial version V1:
  - BUG: If you export the project in a runnable JAR file and copy the jar on other computer with java 8 installed, when you first run the application, open a file and try to compute it's hash you will get an Alert window displaying an Error message. SOLUTION: Close the application and run it again, it should work.
 
 
-Changes in V2;
+Changes in V2:
  - The BouncyCastle Provider is registered using a static block;
  - Updated the application to support drag and drop file input;
  - Updated BouncyCastle Provider to version 1.59;
