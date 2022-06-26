@@ -5,12 +5,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import hash.HashAlgorithms;
+import hash.HashFile;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -19,10 +23,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
-import hash.HashAlgorithms;
-import hash.HashFile;
 
 public class MainFormController implements Initializable {
 
@@ -440,32 +441,54 @@ public class MainFormController implements Initializable {
 	@FXML
 	void initialize() {
 		assert LabelFile != null : "fx:id=\"LabelFile\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert TextFieldFile != null : "fx:id=\"TextFieldFile\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert ButtonOpenFile != null : "fx:id=\"ButtonOpenFile\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert TextFieldFile != null
+				: "fx:id=\"TextFieldFile\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert ButtonOpenFile != null
+				: "fx:id=\"ButtonOpenFile\" was not injected: check your FXML file 'MainForm.fxml'.";
 		assert TextFieldMD5 != null : "fx:id=\"TextFieldMD5\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert TextFieldSHA1 != null : "fx:id=\"TextFieldSHA1\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert TextFieldSHA2_224 != null : "fx:id=\"TextFieldSHA2_224\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert TextFieldSHA2_256 != null : "fx:id=\"TextFieldSHA2_256\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert TextFieldSHA2_384 != null : "fx:id=\"TextFieldSHA2_384\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert TextFieldSHA2_512 != null : "fx:id=\"TextFieldSHA2_512\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert TextFieldSHA3_224 != null : "fx:id=\"TextFieldSHA3_224\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert TextFieldSHA3_256 != null : "fx:id=\"TextFieldSHA3_256\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert TextFieldSHA3_384 != null : "fx:id=\"TextFieldSHA3_384\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert TextFieldSHA3_512 != null : "fx:id=\"TextFieldSHA3_512\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert TextFieldSHA1 != null
+				: "fx:id=\"TextFieldSHA1\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert TextFieldSHA2_224 != null
+				: "fx:id=\"TextFieldSHA2_224\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert TextFieldSHA2_256 != null
+				: "fx:id=\"TextFieldSHA2_256\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert TextFieldSHA2_384 != null
+				: "fx:id=\"TextFieldSHA2_384\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert TextFieldSHA2_512 != null
+				: "fx:id=\"TextFieldSHA2_512\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert TextFieldSHA3_224 != null
+				: "fx:id=\"TextFieldSHA3_224\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert TextFieldSHA3_256 != null
+				: "fx:id=\"TextFieldSHA3_256\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert TextFieldSHA3_384 != null
+				: "fx:id=\"TextFieldSHA3_384\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert TextFieldSHA3_512 != null
+				: "fx:id=\"TextFieldSHA3_512\" was not injected: check your FXML file 'MainForm.fxml'.";
 		assert ButtonMD5 != null : "fx:id=\"ButtonMD5\" was not injected: check your FXML file 'MainForm.fxml'.";
 		assert ButtonSHA1 != null : "fx:id=\"ButtonSHA1\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert ButtonSHA2_224 != null : "fx:id=\"ButtonSHA2_224\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert ButtonSHA2_256 != null : "fx:id=\"ButtonSHA2_256\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert ButtonSHA2_384 != null : "fx:id=\"ButtonSHA2_384\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert ButtonSHA2_512 != null : "fx:id=\"ButtonSHA2_512\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert ButtonSHA3_224 != null : "fx:id=\"ButtonSHA3_224\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert ButtonSHA3_256 != null : "fx:id=\"ButtonSHA3_256\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert ButtonSHA3_384 != null : "fx:id=\"ButtonSHA3_384\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert ButtonSHA3_512 != null : "fx:id=\"ButtonSHA3_512\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert ButtonSHA2_224 != null
+				: "fx:id=\"ButtonSHA2_224\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert ButtonSHA2_256 != null
+				: "fx:id=\"ButtonSHA2_256\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert ButtonSHA2_384 != null
+				: "fx:id=\"ButtonSHA2_384\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert ButtonSHA2_512 != null
+				: "fx:id=\"ButtonSHA2_512\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert ButtonSHA3_224 != null
+				: "fx:id=\"ButtonSHA3_224\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert ButtonSHA3_256 != null
+				: "fx:id=\"ButtonSHA3_256\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert ButtonSHA3_384 != null
+				: "fx:id=\"ButtonSHA3_384\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert ButtonSHA3_512 != null
+				: "fx:id=\"ButtonSHA3_512\" was not injected: check your FXML file 'MainForm.fxml'.";
 		assert LabelStatus != null : "fx:id=\"LabelStatus\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert TextFieldVerifyChecksum != null : "fx:id=\"TextFieldVerifyChecksum\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert ButtonVerifyChecksum != null : "fx:id=\"ButtonVerifyChecksum\" was not injected: check your FXML file 'MainForm.fxml'.";
-		assert LabelVerifyChecksum != null : "fx:id=\"LabelVerifyChecksum\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert TextFieldVerifyChecksum != null
+				: "fx:id=\"TextFieldVerifyChecksum\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert ButtonVerifyChecksum != null
+				: "fx:id=\"ButtonVerifyChecksum\" was not injected: check your FXML file 'MainForm.fxml'.";
+		assert LabelVerifyChecksum != null
+				: "fx:id=\"LabelVerifyChecksum\" was not injected: check your FXML file 'MainForm.fxml'.";
 	}
 
 	@Override

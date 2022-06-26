@@ -17,3 +17,10 @@ Changes in V2:
  - BUG: If you drag and drop a folder in the application you will get this error <FolderPath> (Access is denied). This issue doesn't affect the application functionality.
  - Made some minor changes to check if the dragged file is a folder or not, and now the error message that you will get is "You Selected A Folder!".
  - At this time the application can work with files only not with folders.
+
+Changes in V3:
+ - BouncyCastle updated to v1.70
+ - Maven dependencies updated
+ - Before the Jar file was packed with Maven shade plugin in big jar file. This was breaking the signature of BouncyCastle(as a workaround this was excluded to be packed inside the Jar file)
+ - Now the Jar file is built with Maven jar plugin and Maven dependency plugin(all dependencies are copied in a folder and the jar file contain only the project code and resources)
+ - Project built on JDK version 17

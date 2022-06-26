@@ -1,7 +1,9 @@
 package app;
 
 import java.security.Security;
+
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +18,7 @@ public class SimpleFileHashUtility extends Application {
 		Security.addProvider(new BouncyCastleProvider());
 	}
 
-	public static void main(String[] args) {
+	public static void run(String[] args) {
 		launch(args);
 	}
 
